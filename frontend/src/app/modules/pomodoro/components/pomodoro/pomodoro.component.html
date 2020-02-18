@@ -1,0 +1,21 @@
+<div class="pomodoro-wrapper">
+  <circle-progress
+    #testProgress
+    [backgroundColor]=background
+    [titleColor]=titleColor
+    [percent]=percent
+    [radius]=radius
+    [showInnerStroke]="false"
+    [outerStrokeWidth]=outerStrokeWidth
+    [outerStrokeColor]=outerStrokeColor
+    [animation]=animation
+    [showUnits]="false"
+    [showTitle]="true"
+    [showSubtitle]="false"
+    [title]=title
+    [animationDuration]=animationDuration>
+  </circle-progress>
+
+  <button mat-raised-button color="primary" (click)="startCountDown()"> Start </button>
+
+</div>
