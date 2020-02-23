@@ -10,19 +10,28 @@ export class PomodoroComponent implements OnInit {
 
   // Progress Settings
   percent = "100";
-  radius="100";
-  outerStrokeWidth="12";
+  radius="200";
+  outerStrokeWidth="16";
   innerStrokeWidth="8";
   outerStrokeColor='#FFA726';
-  background='#00ACC1';
+  //background='#00ACC1';
   titleColor='#fff';
   animation=false;
   animationDuration="300";
   title: string;
+  interval;
 
   // Timers
-  focusTime = "1.00";
+  //focusTime = "1.00";
+  //shortBreak = "5.00";
+  //longBreak = "20.00";
 
+  focusTime = "0.05";
+  shortBreak = "0.10";
+  longBreak = "0.20";
+  
+  status: string = 'stopped';
+  completedPomodoros = 0;
 
   constructor() { }
 
@@ -30,36 +39,66 @@ export class PomodoroComponent implements OnInit {
     this.title = this.focusTime;
   }
 
-  decrease() {
-    this.percent = (eval(this.percent) - 1).toString();
+  startPomodoro() {
+    this.status = "focus";
+    this.startCountDown(this.focusTime);
+
   }
 
-  startCountDown() {
+  stopPomodoro() {
+    this.status = 'stopped';
+    this.nextPart();
+  }
+  
+  startCountDown(timer: string) {
 
-    let counter = eval(this.focusTime).toFixed(2);
-    if (eval(this.focusTime) >= 1) {
-      console.log('foo');
+    let counter = eval(timer).toFixed(2);
+    if (eval(timer) >= 1) {
       counter = counter * 60;
     } else {
       counter = counter * 100;
     }
 
-    console.log('Start Counter:', counter);
-
-    var interval = setInterval(() => {
+    this.interval = setInterval(() => {
       counter--;
 
-      console.log(counter);
-
       if (counter < 0) {
-        clearInterval(interval);
+        clearInterval(this.interval);
+        this.nextPart();
       } else {
         let minute = (Math.floor((counter / 60))).toFixed(0).toString();
         let second = (counter % 60).toString();
         this.title = minute + '.' + second;
         // FIXME: Does not properly show progress when starting value is under 1 minute;
-        this.percent = (counter / (eval(this.focusTime) * 60) * 100).toString();
+        this.percent = (counter / (eval(timer) * 60) * 100).toString();
       }
     }, 1000);
+  }
+
+  reset() {
+    clearInterval(this.interval);
+    this.percent = "100";
+    this.title = this.focusTime;
+  }
+
+  nextPart() {
+    this.percent = "100";
+    if (this.status === 'focus') {
+      console.log('focus');
+      this.completedPomodoros++;
+      console.log('C:', this.completedPomodoros);
+      if (this.completedPomodoros !== 1 && this.completedPomodoros % 4 === 0) {
+        console.log('here');
+        this.status = 'long';
+        this.startCountDown(this.longBreak);
+      } else {
+        this.status = 'short';
+        this.startCountDown(this.shortBreak);
+      }
+    } else {
+      console.log('break');
+      this.status = 'stopped';
+      this.reset();
+    }
   }
 }
