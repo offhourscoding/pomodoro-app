@@ -1,0 +1,11 @@
+.pomo-timers {
+  margin-top: 10px;
+  border: 1px solid white;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.pomo-timer-input {
+  width: 100%;
+}
+

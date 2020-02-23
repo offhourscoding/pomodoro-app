@@ -101,4 +101,24 @@ export class PomodoroComponent implements OnInit {
       this.reset();
     }
   }
+
+  timerChange($event: any) {
+    console.log($event);
+    if ($event.timer === 'focus') {
+      this.focusTime = $event.value;
+    } else if ($event.timer === 'short') {
+      this.shortBreak = $event.value;
+    } else if ($event.timer === 'long') {
+      this.longBreak = $event.value;
+    }
+
+    if (this.status === 'focus' || this.status === 'stopped') {
+      this.title = this.focusTime;
+    } else if (this.status === 'short') {
+      this.title = this.shortBreak;
+    } else if (this.status === 'long') {
+      this.title = this.longBreak;
+    }
+  }
+
 }
