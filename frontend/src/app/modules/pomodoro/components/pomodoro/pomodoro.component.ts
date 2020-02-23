@@ -11,25 +11,23 @@ export class PomodoroComponent implements OnInit {
   // Progress Settings
   percent = "100";
   radius="100";
-  outerStrokeWidth="16";
+  outerStrokeWidth="12";
   innerStrokeWidth="8";
-  outerStrokeColor='#c2185b';
-  background='#424242';
+  outerStrokeColor='#FFA726';
+  background='#00ACC1';
   titleColor='#fff';
   animation=false;
   animationDuration="300";
-  title="Test";
+  title: string;
 
   // Timers
-  focusTime = "0.10";
-  //focusTime = "1.00";
+  focusTime = "1.00";
 
 
   constructor() { }
 
   ngOnInit() {
     this.title = this.focusTime;
-
   }
 
   decrease() {
@@ -60,7 +58,7 @@ export class PomodoroComponent implements OnInit {
         let second = (counter % 60).toString();
         this.title = minute + '.' + second;
         // FIXME: Does not properly show progress when starting value is under 1 minute;
-        this.percent = ((counter / (eval(this.focusTime) * 60) * 100)).toString();
+        this.percent = (counter / (eval(this.focusTime) * 60) * 100).toString();
       }
     }, 1000);
   }
