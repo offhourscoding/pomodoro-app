@@ -15,7 +15,7 @@ export class PomodoroComponent implements OnInit {
   innerStrokeWidth="8";
   outerStrokeColor='#FFA726';
   //background='#00ACC1';
-  titleColor='#fff';
+  //titleColor='#fff';
   animation=false;
   animationDuration="300";
   title: string;

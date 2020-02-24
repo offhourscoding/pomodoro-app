@@ -19,10 +19,10 @@
       </circle-progress>
       <p style="text-align: center;">Pomodoros Completed: <span style="color: #c2185b;">{{ completedPomodoros }}</span></p>
       <button mat-raised-button color="primary" (click)="startPomodoro()" class="pomo-button" [disabled]="status !== 'stopped'"> Start </button>
-      <button mat-raised-button color="accent" (click)="stopPomodoro()" class="pomo-button"> Stop </button>
+      <button mat-raised-button color="warn" (click)="stopPomodoro()" class="pomo-button"> Stop </button>
 
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel class="pomo-button">
           <mat-expansion-panel-header>
             <mat-panel-title> Settings </mat-panel-title>
           </mat-expansion-panel-header>

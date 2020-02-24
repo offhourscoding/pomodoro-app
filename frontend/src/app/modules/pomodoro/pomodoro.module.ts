@@ -13,6 +13,9 @@ import { PomodoroSettingsComponent } from './components/pomodoro-settings/pomodo
     MaterialModule,
     NgCircleProgressModule.forRoot(),
     FormsModule,
+  ],
+  exports: [
+    PomodoroComponent,
   ]
 })
 export class PomodoroModule { }
