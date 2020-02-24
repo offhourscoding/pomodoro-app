@@ -10,7 +10,7 @@ export class PomodoroComponent implements OnInit {
 
   // Progress Settings
   percent = "100";
-  radius="200";
+  radius="150";
   outerStrokeWidth="16";
   innerStrokeWidth="8";
   outerStrokeColor='#FFA726';
@@ -64,6 +64,7 @@ export class PomodoroComponent implements OnInit {
 
       if (counter < 0) {
         clearInterval(this.interval);
+        this.playSound();
         this.nextPart();
       } else {
         let minute = (Math.floor((counter / 60))).toFixed(0).toString();
@@ -121,4 +122,18 @@ export class PomodoroComponent implements OnInit {
     }
   }
 
+  playSound() {
+    let audioSrc: string;
+
+    if (this.status === 'focus') {
+      audioSrc = 'assets/alarm.mp3';
+    } else {
+      audioSrc = 'assets/break.mp3';
+    }
+
+    let audio = new Audio();
+    audio.src = audioSrc;
+    audio.load();
+    audio.play();
+  }
 }

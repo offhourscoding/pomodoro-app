@@ -1,14 +1,16 @@
 <div class="pomo-timers">
-  <mat-form-field class="pomo-timer-input">
-    <mat-label>Focus Time</mat-label>
-    <input matInput [(ngModel)]="focusTime" type="number" (change)="focusChangeEvent()">
-  </mat-form-field>
-  <mat-form-field class="pomo-timer-input">
-    <mat-label>Short Break</mat-label>
-    <input matInput [(ngModel)]="shortBreak" type="number">
-  </mat-form-field>
-  <mat-form-field class="pomo-timer-input">
-    <mat-label>Long Break</mat-label>
-    <input matInput [(ngModel)]="longBreak" type="number">
-  </mat-form-field>
+  <mat-card>
+    <mat-form-field class="pomo-timer-input">
+      <mat-label>Focus Time</mat-label>
+      <input matInput [(ngModel)]="focusTime" type="number" (change)="focusChangeEvent()">
+    </mat-form-field>
+    <mat-form-field class="pomo-timer-input">
+      <mat-label>Short Break</mat-label>
+      <input matInput [(ngModel)]="shortBreak" type="number" (change)="shortBreakChangeEvent()">
+    </mat-form-field>
+    <mat-form-field class="pomo-timer-input">
+      <mat-label>Long Break</mat-label>
+      <input matInput [(ngModel)]="longBreak" type="number" (change)="longBreakChangeEvent()">
+    </mat-form-field>
+  </mat-card>
 </div>

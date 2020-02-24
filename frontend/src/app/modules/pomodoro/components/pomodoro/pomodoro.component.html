@@ -17,11 +17,18 @@
         [title]=title
         [animationDuration]=animationDuration>
       </circle-progress>
-      <br>
+      <p style="text-align: center;">Pomodoros Completed: <span style="color: #c2185b;">{{ completedPomodoros }}</span></p>
       <button mat-raised-button color="primary" (click)="startPomodoro()" class="pomo-button" [disabled]="status !== 'stopped'"> Start </button>
       <button mat-raised-button color="accent" (click)="stopPomodoro()" class="pomo-button"> Stop </button>
 
-      <pomodoro-settings [focusTime]="focusTime" [shortBreak]="shortBreak" [longBreak]="longBreak" (valueChange)="timerChange($event)"></pomodoro-settings>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Settings </mat-panel-title>
+          </mat-expansion-panel-header>
+          <pomodoro-settings [focusTime]="focusTime" [shortBreak]="shortBreak" [longBreak]="longBreak" (valueChange)="timerChange($event)"></pomodoro-settings>
+        </mat-expansion-panel>
+      </mat-accordion>
     </mat-card-content>
   </mat-card>
 </div>
