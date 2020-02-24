@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PomodoroComponent } from 'src/app/modules/pomodoro';
+import { HomeComponent } from './core';
+
 const routes: Routes = [
-  { path: '', component: PomodoroComponent },
+  { path: '', component: HomeComponent },
 ];
 
 @NgModule({
