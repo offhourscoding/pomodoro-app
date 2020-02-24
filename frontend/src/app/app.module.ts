@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PomodoroModule } from './modules/pomodoro';
+import { CoreModule } from './core';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { PomodoroModule } from './modules/pomodoro';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    PomodoroModule,
+    CoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
