@@ -1,0 +1,8 @@
+.todo-wrapper { }
+
+.todo-card {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
