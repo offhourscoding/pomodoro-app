@@ -6,3 +6,11 @@
   flex-direction: column;
   align-content: center;
 }
+
+.spacer {
+  margin: 0 auto;
+}
+
+.completed {
+  text-decoration: line-through;
+}
