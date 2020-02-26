@@ -47,6 +47,27 @@ export class TodoListComponent implements OnInit {
 
   //// Button Handlers ////
   
+  moveUpClick(id: number) {
+    let index = this.findTodoIndex(id);
+    if (index > -1) {
+      this.todoList[index].order = index;
+      this.todoList[index-1].order = index + 1;
+    }
+
+    this.reorderTodoList();
+  }
+
+
+  moveDownClick(id: number) {
+    let index = this.findTodoIndex(id);
+    if (index > -1) {
+      this.todoList[index].order = index + 1;
+      this.todoList[index + 1].order = index;
+      this.reorderTodoList();
+    }
+  }
+
+
   deleteClick(id: number) {
     let index = this.findTodoIndex(id);
     if (index > -1) {
@@ -80,5 +101,7 @@ export class TodoListComponent implements OnInit {
     for(let i = 0; i < this.todoList.length; i++) {
       this.todoList[i].order = i + 1;
     }
+
+    console.log(this.todoList);
   }
 }
