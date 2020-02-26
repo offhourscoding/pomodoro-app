@@ -1,19 +1,21 @@
 <div class="todo-wrapper">
   <mat-card class="todo-card">
+    <form [formGroup]="todoForm" (ngSubmit)="onSubmitClick()">
     <mat-form-field style="width: 100%;">
-      <mat-label>Add todo</mat-label>
-      <input matInput type="text">
+      <mat-label>Todo (push enter to add)</mat-label>
+      <input matInput formControlName="todo" type="text" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && todoForm.controls.todo.errors }">
     </mat-form-field>
+    </form>
 
     <mat-list>
       <mat-list-item *ngFor="let todo of todoList, let i = index">
-        <mat-checkbox (change)="changeCompleteEvent(todo.id)" [ngClass]="{'completed': todo.completed}">
+        <mat-checkbox (change)="onChangeCompleteEvent(todo.id)" [ngClass]="{'completed': todo.completed}">
           {{ todo.task }}
         </mat-checkbox>
         <span class="spacer"></span>
-        <button *ngIf="i !== 0" mat-icon-button><mat-icon (click)="moveUpClick(todo.id)">arrow_upward</mat-icon></button>
-        <button *ngIf="i !== todoList.length -1" mat-icon-button><mat-icon (click)="moveDownClick(todo.id)">arrow_downward</mat-icon></button>
-        <button mat-icon-button><mat-icon color="warn" (click)="deleteClick(todo.id)">delete</mat-icon></button>
+        <button *ngIf="i !== 0" mat-icon-button><mat-icon (click)="onMoveUpClick(todo.id)">arrow_upward</mat-icon></button>
+        <button *ngIf="i !== todoList.length -1" mat-icon-button><mat-icon (click)="onMoveDownClick(todo.id)">arrow_downward</mat-icon></button>
+        <button mat-icon-button><mat-icon color="warn" (click)="onDeleteClick(todo.id)">delete</mat-icon></button>
       </mat-list-item>
     </mat-list>
   </mat-card>

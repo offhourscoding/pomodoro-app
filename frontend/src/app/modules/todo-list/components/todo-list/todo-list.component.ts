@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../../interfaces';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
+
+import { Todo } from '../../interfaces';
 
 @Component({
   selector: 'app-todo-list',
@@ -10,9 +12,12 @@ import * as _ from 'lodash';
 export class TodoListComponent implements OnInit {
 
   todoList: Todo[];
+  todoForm: FormGroup;
+  isSubmitted = false;
 
-  constructor() { }
-
+  constructor(
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
     this.todoList = [
@@ -42,12 +47,16 @@ export class TodoListComponent implements OnInit {
       }
     ];
 
+    this.todoForm = this.formBuilder.group({
+      todo: ['', Validators.required]
+    });
+
     this.reorderTodoList();
   }
 
   //// Button Handlers ////
   
-  moveUpClick(id: number) {
+  onMoveUpClick(id: number) {
     let index = this.findTodoIndex(id);
     if (index > -1) {
       this.todoList[index].order = index;
@@ -58,7 +67,7 @@ export class TodoListComponent implements OnInit {
   }
 
 
-  moveDownClick(id: number) {
+  onMoveDownClick(id: number) {
     let index = this.findTodoIndex(id);
     if (index > -1) {
       this.todoList[index].order = index + 1;
@@ -68,7 +77,7 @@ export class TodoListComponent implements OnInit {
   }
 
 
-  deleteClick(id: number) {
+  onDeleteClick(id: number) {
     let index = this.findTodoIndex(id);
     if (index > -1) {
       this.todoList.splice(index, 1);
@@ -78,9 +87,30 @@ export class TodoListComponent implements OnInit {
   }
 
 
+  onSubmitClick() {
+    this.isSubmitted = true;
+
+    if (this.todoForm.valid) {
+      let todo: Todo = {
+        id: this.todoList.length + 1,
+        task: this.todoForm.controls.todo.value,
+        order: this.todoList.length + 1,
+        completed: 0
+      }
+
+      this.todoList.push(todo);
+      this.reorderTodoList();
+      this.todoForm.reset();
+      //this.todoForm.controls.todo.setValue(null);
+      //this.todoForm.controls.todo.setErrors(null);
+      this.isSubmitted = false;
+      return;
+    }
+  }
+
   //// Event Listeners ////
 
-  changeCompleteEvent(id: number) {
+  onChangeCompleteEvent(id: number) {
     let index = this.findTodoIndex(id);
     if (index !== -1) {
       this.todoList[index].completed ? this.todoList[index].completed = 0 : this.todoList[index].completed = 1;
@@ -90,7 +120,10 @@ export class TodoListComponent implements OnInit {
 
 
   //// Helpers ////
-  
+
+  f() { return this.todoForm.controls; }
+
+
   findTodoIndex(id: number): number {
     return this.todoList.findIndex(todo => todo.id === id);
   }
