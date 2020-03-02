@@ -1,12 +1,13 @@
 <div class="todo-wrapper">
   <mat-card class="todo-card">
-    <form [formGroup]="todoForm" (ngSubmit)="onSubmitClick()">
+      <div *ngIf="isSubmitted && isTodoInvalid">
+        <!-- TODO: Move style to css class -->
+        <span style="color: red;">* Todo Task Required</span>
+      </div>
     <mat-form-field style="width: 100%;">
       <mat-label>Todo (push enter to add)</mat-label>
-      <input matInput formControlName="todo" type="text" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && todoForm.controls.todo.errors }">
+      <input #todoInput matInput type="text" class="form-control" (keyup.enter)="onAddTodoEvent(todoInput.value)">
     </mat-form-field>
-    </form>
-
     <mat-list>
       <mat-list-item *ngFor="let todo of todoList, let i = index">
         <mat-checkbox (change)="onChangeCompleteEvent(todo.id)" [ngClass]="{'completed': todo.completed}">
@@ -14,6 +15,7 @@
         </mat-checkbox>
         <span class="spacer"></span>
         <button *ngIf="i !== 0" mat-icon-button><mat-icon (click)="onMoveUpClick(todo.id)">arrow_upward</mat-icon></button>
+        <span *ngIf="i === todoList.length -1" class="button-placeholder"></span>
         <button *ngIf="i !== todoList.length -1" mat-icon-button><mat-icon (click)="onMoveDownClick(todo.id)">arrow_downward</mat-icon></button>
         <button mat-icon-button><mat-icon color="warn" (click)="onDeleteClick(todo.id)">delete</mat-icon></button>
       </mat-list-item>

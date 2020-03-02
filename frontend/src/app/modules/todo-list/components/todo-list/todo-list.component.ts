@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
@@ -11,48 +11,20 @@ import { Todo } from '../../interfaces';
 })
 export class TodoListComponent implements OnInit {
 
+  @ViewChild('todoInput', { static: false }) todoInput: ElementRef;
   todoList: Todo[];
-  todoForm: FormGroup;
   isSubmitted = false;
+  isTodoInvalid = false;
 
   constructor(
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
-    this.todoList = [
-      {
-        id: 1,
-        task: 'Task 1',
-        order: 4,
-        completed: 0
-      },
-      {
-        id: 2,
-        task: 'Task 2',
-        order: 3,
-        completed: 0
-      },
-      {
-        id: 3,
-        task: 'Task 3',
-        order: 2,
-        completed: 0
-      },
-      {
-        id: 4,
-        task: 'Task 4',
-        order: 1,
-        completed: 0
-      }
-    ];
-
-    this.todoForm = this.formBuilder.group({
-      todo: ['', Validators.required]
-    });
-
+    this.todoList = [];
     this.reorderTodoList();
   }
+
 
   //// Button Handlers ////
   
@@ -87,27 +59,6 @@ export class TodoListComponent implements OnInit {
   }
 
 
-  onSubmitClick() {
-    this.isSubmitted = true;
-
-    if (this.todoForm.valid) {
-      let todo: Todo = {
-        id: this.todoList.length + 1,
-        task: this.todoForm.controls.todo.value,
-        order: this.todoList.length + 1,
-        completed: 0
-      }
-
-      this.todoList.push(todo);
-      this.reorderTodoList();
-      this.todoForm.reset();
-      //this.todoForm.controls.todo.setValue(null);
-      //this.todoForm.controls.todo.setErrors(null);
-      this.isSubmitted = false;
-      return;
-    }
-  }
-
   //// Event Listeners ////
 
   onChangeCompleteEvent(id: number) {
@@ -119,9 +70,41 @@ export class TodoListComponent implements OnInit {
   }
 
 
+  onAddTodoEvent(task: string) {
+    this.isSubmitted = true;
+    if (!task) {
+      this.isTodoInvalid = true;
+      return;
+    }
+
+    this.addTodo(task);
+    this.resetTodoInput(); 
+    return;
+  }
+
+
   //// Helpers ////
 
-  f() { return this.todoForm.controls; }
+  addTodo(task: string) {
+
+      let todo: Todo = {
+        id: this.todoList.length + 1,
+        task: task,
+        order: this.todoList.length + 1,
+        completed: 0
+      }
+
+      this.todoList.push(todo);
+      this.reorderTodoList();
+      return;
+  }
+
+
+  resetTodoInput() {
+    this.isSubmitted = false;
+    this.isTodoInvalid = false;
+    this.todoInput.nativeElement.value = '';
+  }
 
 
   findTodoIndex(id: number): number {
