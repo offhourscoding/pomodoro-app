@@ -4,10 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "clean": "rm -rf dist",
+    "docker-up": "docker-compose up -d --build",
+    "docker-build": "docker-compose build",
+    "docker-start": "docker-compose up -d",
+    "docker-clean": "docker rm -f pomodoro-frontend"
   },
   "private": true,
   "dependencies": {

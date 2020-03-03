@@ -1,0 +1,9 @@
+version: '2.1'
+
+services:
+  frontend:
+    image: pomodoro-frontend
+    container_name: pomodoro-frontend
+    build: .
+    ports:
+      - 8888:80
