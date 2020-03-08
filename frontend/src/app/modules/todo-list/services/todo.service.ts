@@ -8,8 +8,6 @@ import { Todo } from '../interfaces/todo';
   providedIn: 'root'
 })
 
-// TODO: Merge component logic to service
-// TODO: Optomize code. Create helper function to get list and reorder it. Repeating code to often
 // TODO: Persist data with localstorage
 
 export class TodoService {
@@ -36,26 +34,26 @@ export class TodoService {
       completed: 0
     }
 
-    let todoList = this.todoList;
-    todoList.push(todo);
-    todoList = this.reorderTodoList(todoList);
-
-    this.todoListSubject.next(todoList);
+    let todos = this.todoList;
+    todos.push(todo);
+    this.updateTodoList(todos);
   }
 
 
   // Edit Todo
+
+  // Edit complete status
   editComplete(id: number) {
     let index = this.findTodoIndex(id);
     if (index !== -1) {
       let todos = this.todoList;
       todos[index].completed ? todos[index].completed = 0 : todos[index].completed = 1;
-      todos = this.reorderTodoList(todos);
-      this.todoListSubject.next(todos);
+      this.updateTodoList(todos);
     }
   }
 
 
+  // Edit list order
   editOrder(id: number, direction: string) {
     let index = this.findTodoIndex(id);
     if (index !== -1) {
@@ -70,9 +68,7 @@ export class TodoService {
         todos[index].order = index + 1;
         todos[index + 1].order = index;
       }
-
-      todos = this.reorderTodoList(todos);
-      this.todoListSubject.next(todos);
+      this.updateTodoList(todos);
     }
   }
 
@@ -83,9 +79,7 @@ export class TodoService {
     if (index > -1) {
       let todos = this.todoList;
       todos.splice(index, 1);
-      todos = this.reorderTodoList(todos);
-      console.log(todos);
-      this.todoListSubject.next(todos);
+      this.updateTodoList(todos);
     }
   }
 
@@ -103,8 +97,15 @@ export class TodoService {
   }
 
 
+  // Find array index of a Todo
   private findTodoIndex(id: number): number {
     let todos = this.todoList;
     return todos.findIndex(todo => todo.id === id);
+  }
+
+  // Update TodoList
+  private updateTodoList(todos: Todo[]) {
+    todos = this.reorderTodoList(todos);
+    this.todoListSubject.next(todos);
   }
 }
