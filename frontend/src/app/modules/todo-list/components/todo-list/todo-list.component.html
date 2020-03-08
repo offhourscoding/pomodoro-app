@@ -14,9 +14,9 @@
           {{ todo.task }}
         </mat-checkbox>
         <span class="spacer"></span>
-        <button *ngIf="i !== 0" mat-icon-button><mat-icon (click)="onMoveUpClick(todo.id)">arrow_upward</mat-icon></button>
-        <span *ngIf="i === todoList.length -1" class="button-placeholder"></span>
-        <button *ngIf="i !== todoList.length -1" mat-icon-button><mat-icon (click)="onMoveDownClick(todo.id)">arrow_downward</mat-icon></button>
+        <button *ngIf="i !== 0 && !todo.completed" mat-icon-button><mat-icon (click)="onMoveUpClick(todo.id)">arrow_upward</mat-icon></button>
+        <span *ngIf="i === todoList.length -1 && !todo.completed" class="button-placeholder"></span>
+        <button *ngIf="i !== todoList.length -1 && !todo.completed" mat-icon-button><mat-icon (click)="onMoveDownClick(todo.id)">arrow_downward</mat-icon></button>
         <button mat-icon-button><mat-icon color="warn" (click)="onDeleteClick(todo.id)">delete</mat-icon></button>
       </mat-list-item>
     </mat-list>
