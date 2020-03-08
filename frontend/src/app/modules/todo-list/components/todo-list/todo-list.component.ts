@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 
 import { Todo } from '../../interfaces';
+import { TodoService } from '../../services/todo.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -17,56 +18,40 @@ export class TodoListComponent implements OnInit {
   isTodoInvalid = false;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private todoService: TodoService
   ) { }
 
   ngOnInit() {
-    this.todoList = [];
-    this.reorderTodoList();
+    this.getTodos();
   }
 
 
   //// Button Handlers ////
   
   onMoveUpClick(id: number) {
-    let index = this.findTodoIndex(id);
-    if (index > -1) {
-      this.todoList[index].order = index;
-      this.todoList[index-1].order = index + 1;
-    }
-
-    this.reorderTodoList();
+    this.todoService.editOrder(id, 'up');
+    this.getTodos();
   }
 
 
   onMoveDownClick(id: number) {
-    let index = this.findTodoIndex(id);
-    if (index > -1) {
-      this.todoList[index].order = index + 1;
-      this.todoList[index + 1].order = index;
-      this.reorderTodoList();
-    }
+    this.todoService.editOrder(id, 'down');
+    this.getTodos();
   }
 
 
   onDeleteClick(id: number) {
-    let index = this.findTodoIndex(id);
-    if (index > -1) {
-      this.todoList.splice(index, 1);
-      this.reorderTodoList();
-      console.log(this.todoList);
-    }
+    this.todoService.remove(id);
+    this.getTodos();
   }
 
 
   //// Event Listeners ////
 
   onChangeCompleteEvent(id: number) {
-    let index = this.findTodoIndex(id);
-    if (index !== -1) {
-      this.todoList[index].completed ? this.todoList[index].completed = 0 : this.todoList[index].completed = 1;
-      this.reorderTodoList();
-    }
+    this.todoService.editComplete(id);
+    this.getTodos();
   }
 
 
@@ -77,7 +62,8 @@ export class TodoListComponent implements OnInit {
       return;
     }
 
-    this.addTodo(task);
+    this.todoService.addTodo(task);
+    this.getTodos();
     this.resetTodoInput(); 
     return;
   }
@@ -85,18 +71,9 @@ export class TodoListComponent implements OnInit {
 
   //// Helpers ////
 
-  addTodo(task: string) {
-
-      let todo: Todo = {
-        id: this.todoList.length + 1,
-        task: task,
-        order: this.todoList.length + 1,
-        completed: 0
-      }
-
-      this.todoList.push(todo);
-      this.reorderTodoList();
-      return;
+  getTodos() {
+    this.todoList = this.todoService.todoList;
+    console.log(this.todoList);
   }
 
 
@@ -110,6 +87,7 @@ export class TodoListComponent implements OnInit {
   findTodoIndex(id: number): number {
     return this.todoList.findIndex(todo => todo.id === id);
   }
+
 
   reorderTodoList() {
     this.todoList = _.orderBy(this.todoList, ['completed', 'order']);
