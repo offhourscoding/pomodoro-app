@@ -8,15 +8,19 @@ import { Todo } from '../interfaces/todo';
   providedIn: 'root'
 })
 
-// TODO: Persist data with localstorage
-
 export class TodoService {
 
   private todoListSubject: BehaviorSubject<Todo[]>;
   public currentTodoList: Observable<Todo[]>;
 
   constructor() { 
-    this.todoListSubject = new BehaviorSubject<Todo[]>([]);
+    // Init local storage if blank
+    if (localStorage.getItem('todos') === null) {
+      this.todoListSubject = new BehaviorSubject<Todo[]>([]);
+      this.updateLocalstorage([]);
+    }
+
+    this.todoListSubject = new BehaviorSubject<Todo[]>(JSON.parse(localStorage.getItem('todos')));
     this.currentTodoList = this.todoListSubject.asObservable();
   }
 
@@ -61,12 +65,13 @@ export class TodoService {
     if (index !== -1) {
       let todos = this.todoList;
 
+      // Change order based off direction
+      // up = lower order number
+      // down = increase order number
       if (direction === 'up') {
-        // Lower the order number
         todos[index].order = index;
         todos[index-1].order = index + 1;
       } else if (direction === 'down') {
-        // Increase the order number
         todos[index].order = index + 1;
         todos[index + 1].order = index;
       }
@@ -109,6 +114,13 @@ export class TodoService {
   // Update TodoList
   private updateTodoList(todos: Todo[]) {
     todos = this.reorderTodoList(todos);
+    this.updateLocalstorage(todos);
     this.todoListSubject.next(todos);
+  }
+
+  // Update local storage
+  private updateLocalstorage(todos: Todo[]) {
+    localStorage.removeItem('todos');
+    localStorage.setItem('todos', JSON.stringify(todos));
   }
 }
