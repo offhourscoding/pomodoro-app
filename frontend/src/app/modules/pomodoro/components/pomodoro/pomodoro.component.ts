@@ -22,13 +22,14 @@ export class PomodoroComponent implements OnInit {
   interval;
 
   // Timers
-  //focusTime = "1.00";
-  //shortBreak = "5.00";
-  //longBreak = "20.00";
+  // Testing timers
+  //focusTime = "0.05";
+  //shortBreak = "0.10";
+  //longBreak = "0.20";
 
-  focusTime = "0.05";
-  shortBreak = "0.10";
-  longBreak = "0.20";
+  focusTime = "25.00";
+  shortBreak = "5.00";
+  longBreak = "20.00";
   
   status: string = 'stopped';
   completedPomodoros = 0;
