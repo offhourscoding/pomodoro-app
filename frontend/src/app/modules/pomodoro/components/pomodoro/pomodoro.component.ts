@@ -8,6 +8,8 @@ import { CircleProgressComponent } from 'ng-circle-progress';
 })
 export class PomodoroComponent implements OnInit {
 
+  // TODO: Change native HTML5 audio to https://howlerjs.com/ to support mobile
+
   // Progress Settings
   percent = "100";
   radius="150";
