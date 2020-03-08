@@ -20,10 +20,12 @@ export class TodoService {
     this.currentTodoList = this.todoListSubject.asObservable();
   }
 
+
   // Get Todos
   public get todoList(): Todo[] {
     return this.todoListSubject.value;
   }
+
 
   // Add Todo
   addTodo(task: string) {
@@ -102,6 +104,7 @@ export class TodoService {
     let todos = this.todoList;
     return todos.findIndex(todo => todo.id === id);
   }
+
 
   // Update TodoList
   private updateTodoList(todos: Todo[]) {
