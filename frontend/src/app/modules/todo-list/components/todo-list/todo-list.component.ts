@@ -12,7 +12,7 @@ import { TodoService } from '../../services/todo.service';
 })
 export class TodoListComponent implements OnInit {
 
-  @ViewChild('todoInput', { static: false }) todoInput: ElementRef;
+  @ViewChild('todoInput') todoInput: ElementRef;
   todoList: Todo[];
   isSubmitted = false;
   isTodoInvalid = false;
